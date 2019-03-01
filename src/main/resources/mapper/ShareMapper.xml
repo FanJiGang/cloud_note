@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 映射文件 -->
+<mapper namespace="cn.fan.cloud_note.dao.ShareDao">
+	<!-- 向cn_share表中存储一条记录 -->
+	<insert id="save" parameterType="cn.fan.cloud_note.entity.Share">
+		insert into cn_share 
+		(cn_share_id,cn_share_title,cn_share_body,cn_note_id) 
+		values 
+		(#{cn_share_id},#{cn_share_title},#{cn_share_body},#{cn_note_id})
+	</insert>
+	<!-- 查询所有符合条件的数据 -->
+	<select id="searchNote" parameterType="map" resultType="cn.fan.cloud_note.entity.Share">
+		SELECT * FROM cn_share 
+		WHERE cn_share_title LIKE #{keyword} limit #{begin},5
+	</select>
+	<!--根据id查询指定的笔记内容-->
+	<select id="searchShareByID" parameterType="string" resultType="cn.fan.cloud_note.entity.Share">
+		select * from cn_share
+		where cn_share_id=#{id}
+	</select>
+</mapper>

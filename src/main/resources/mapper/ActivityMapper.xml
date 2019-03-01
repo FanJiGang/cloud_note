@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 映射文件 -->
+<mapper namespace="cn.fan.cloud_note.dao.ActivityDao">
+	<select id="findAll" resultType="cn.fan.cloud_note.entity.Activity">
+		SELECT * FROM cn_activity where cn_activity_end_time!='' ORDER BY cn_activity_end_time;
+	</select>
+</mapper>

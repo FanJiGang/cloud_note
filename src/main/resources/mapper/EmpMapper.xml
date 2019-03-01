@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 映射文件 -->
+<mapper namespace="cn.fan.cloud_note.dao.EmpDao">
+	<!-- 向t_emp表中增加一条记录 -->
+	<!-- MYSQL:数据库自动生成主键,获取主键值放入对象的id属性中 -->
+	<insert id="save" parameterType="cn.fan.cloud_note.entity.Emp" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_emp 
+		(name,age) 
+		VALUES
+		(#{name},#{age})
+	</insert>
+</mapper>

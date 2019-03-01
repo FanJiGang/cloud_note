@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- NoteActivity映射文件 -->
+<mapper namespace="cn.fan.cloud_note.dao.NoteActivityDao">
+	<!--查询指定activity_id的笔记信息-->
+	<select id="searchNoteActivity" parameterType="map" resultType="cn.fan.cloud_note.entity.NoteActivity">
+		SELECT * FROM cn_note_activity
+		WHERE cn_activity_id=#{activity_id} limit #{begin},5
+	</select>
+	<!--查询指定笔记内容-->
+	<select id="searchNoteContent" parameterType="string" resultType="cn.fan.cloud_note.entity.NoteActivity">
+		select * from cn_note_activity
+		where cn_note_activity_id=#{activityNoteId}
+	</select>
+	<!--增加一条记录-->
+	<insert id="addNoteActivity" parameterType="map">
+		insert into cn_note_activity
+		(cn_note_activity_id,cn_activity_id,cn_note_id,cn_note_activity_up,cn_note_activity_down,cn_note_activity_title,cn_note_activity_body)
+		values
+		(#{noteActivityId},#{activityId},#{noteId},0,0,#{title},#{body})
+	</insert>
+	<!--点赞/点踩-->
+	<update id="upOrDown" parameterType="map">
+		update cn_note_activity
+		set cn_note_activity_up=cn_note_activity_up+#{up},
+			cn_note_activity_down=cn_note_activity_down+#{down}
+		where cn_note_activity_id=#{id}
+	</update>
+</mapper>

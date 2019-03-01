@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 映射文件 -->
+<mapper namespace="cn.fan.cloud_note.dao.NoteDao">
+
+	<!-- 根据笔记本id及状态查询笔记 -->
+	<select id="findNotes" parameterType="map" resultType="cn.fan.cloud_note.entity.Note">
+		SELECT * FROM cn_note
+		WHERE cn_user_id=#{userId} AND cn_note_status_id=#{userStatus}
+	</select>
+
+	<!-- 根据笔记本id查询回收站的笔记 -->
+	<select id="findRollbackNotes" parameterType="string" resultType="Map">
+		SELECT cn_note_id,cn_note_title FROM cn_note
+		WHERE cn_user_id=#{userId} AND cn_note_status_id=2
+	</select>
+
+	<!-- 根据笔记本id查询对应的笔记 -->
+	<select id="findByBookId" parameterType="string" resultType="Map">
+		SELECT cn_note_id,cn_note_title FROM cn_note
+		WHERE cn_notebook_id=#{bookId} AND cn_note_status_id=1
+	</select>
+	
+	<!-- 根据笔记id查询对应的笔记内容 -->
+	<select id="findBodyByNoteId" parameterType="string" resultType="cn.fan.cloud_note.entity.Note">
+		SELECT cn_note_title,cn_note_body FROM cn_note
+		WHERE cn_note_id=#{noteId}
+	</select>
+	
+	<!-- 更新选中笔记的内容 -->
+	<update id="updateNote" parameterType="cn.fan.cloud_note.entity.Note">
+		UPDATE cn_note 
+		SET cn_note_title=#{cn_note_title},cn_note_body=#{cn_note_body},cn_note_last_modify_time=#{cn_note_last_modify_time} 
+		WHERE cn_note_id=#{cn_note_id}
+	</update>
+	
+	<!-- 新建笔记 -->
+	<insert id="addNote" parameterType="cn.fan.cloud_note.entity.Note">
+		INSERT INTO cn_note 
+		(cn_note_id,cn_notebook_id,cn_user_id,cn_note_status_id,cn_note_type_id,cn_note_title,cn_note_body,cn_note_create_time,cn_note_last_modify_time) 
+		VALUES
+		(#{cn_note_id},#{cn_notebook_id},#{cn_user_id},#{cn_note_status_id},#{cn_note_type_id},#{cn_note_title},#{cn_note_body},#{cn_note_create_time},#{cn_note_last_modify_time})
+	</insert>
+	
+	<!-- 更改笔记状态 -->
+	<update id="updateNoteStatus" parameterType="map">
+		UPDATE cn_note 
+		SET cn_note_status_id=#{noteStatus}
+		WHERE cn_note_id=#{noteId}
+	</update>
+	
+	<!-- 使用动态sql更新笔记 -->
+	<update id="updateNoteByMap" parameterType="map">
+		UPDATE cn_note SET 
+		<trim suffixOverrides=",">
+		<if test="title!=null">
+			cn_note_title=#{title},
+		</if>
+		<if test="body!=null">
+			cn_note_body=#{body},
+		</if>
+		<choose>
+			<when test="time!=null">
+				cn_note_last_modify_time=#{time}
+			</when>
+			<otherwise>
+				cn_note_last_modify_time=UNIX_TIMESTAMP()
+			</otherwise>
+		</choose>
+		</trim>
+		WHERE cn_note_id=#{noteId}
+	</update>
+	
+	<!-- 批量删除笔记 -->
+	<delete id="deleteNotes" parameterType="map">
+		DELETE FROM cn_note 
+		WHERE 
+		<if test="status!=null">
+			cn_note_status_id=#{status} AND 
+		</if>
+		cn_note_id in
+		<foreach collection="ids" item="id" 
+		open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<!-- 删除一条笔记 -->
+	<delete id="deleteNote" parameterType="string">
+		DELETE from cn_note 
+		WHERE cn_note_id=#{id}
+	</delete>
+</mapper>

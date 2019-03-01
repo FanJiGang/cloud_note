@@ -1,0 +1,25 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="cloud_note:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/cloud_note_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="cloud_note/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="cloud_note" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="application" name="c3p0-0.9.1.1" />
+          <element id="library" level="application" name="mysql-connector-java-5.1.4" />
+          <element id="library" level="application" name="org.springframework:spring-webmvc:4.2.3.RELEASE" />
+          <element id="library" level="application" name="jackson-annotations-2.2.3" />
+          <element id="library" level="application" name="jackson-core-2.2.3" />
+          <element id="library" level="application" name="jackson-databind-2.2.3" />
+          <element id="library" level="application" name="org.mybatis:mybatis-spring:1.3.2" />
+          <element id="library" level="application" name="org.mybatis:mybatis:3.4.2" />
+          <element id="library" level="application" name="org.springframework:spring-jdbc:4.2.3.RELEASE" />
+          <element id="library" level="application" name="aspectj:aspectjweaver:1.5.3" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

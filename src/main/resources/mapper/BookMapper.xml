@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 映射文件 -->
+<mapper namespace="cn.fan.cloud_note.dao.BookDao">
+	<!--删除一个笔记本-->
+	<delete id="delBook" parameterType="string">
+		delete from cn_notebook where cn_notebook_id=#{bookId}
+	</delete>
+	<!-- 根据cn_user_id,查询cn_notebook表中的数据 -->
+	<select id="findByUserId" parameterType="string" resultType="cn.fan.cloud_note.entity.Book">
+		SELECT * FROM cn_notebook 
+		WHERE cn_user_id=#{userId}
+		ORDER BY cn_notebook_createtime DESC
+	</select>
+	<!-- 向cn_notebook表中插入一条数据 -->
+	<insert id="save" parameterType="map">
+		INSERT INTO cn_notebook 
+		(cn_notebook_id,cn_user_id,cn_notebook_name,cn_notebook_createtime)
+		VALUES
+		(#{bookId},#{userId},#{bookName},#{bookCreateTime})
+	</insert>
+	<!-- 重命名笔记本 -->
+	<update id="rename" parameterType="map">
+		UPDATE cn_notebook 
+		SET cn_notebook_name=#{bookName} 
+		WHERE cn_notebook_id=#{bookId}
+	</update>
+</mapper>
+
